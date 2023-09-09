@@ -1,5 +1,5 @@
 ---
-title: "Mumuksha's Website"
+title: "Website"
 ---
 
 This is a Quarto website.

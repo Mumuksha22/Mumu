@@ -1,9 +1,9 @@
 project:
   type: website
   output-dir: docs
-  
+
 website:
-  title: "Mumuksha's Website"
+  title: "Website"
   navbar:
     left:
       - href: index.qmd
