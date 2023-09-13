@@ -1,11 +1,5 @@
 ---
-title: "Website"
+title: "Mumuksha's Website"
 ---
 
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
-```{r}
-1 + 1
-```
+Hello! My name is Mumuksha Singla and this is my website for my Data Visualisation (EPPS 6356) class.

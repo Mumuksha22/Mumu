@@ -66,18 +66,22 @@ par(op)
 
 ```
 
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--
+
 ```{r}
 #Q2)
 
 ```
 
-[![Generative Art Example 1](GA_Image1.jpg){fig-align="center"}](https://www.data-imaginist.com/art)
+[![ Generative Art Example 1](GA_Image1.jpg){fig-align="center"}](https://www.data-imaginist.com/art)
 
 [Pedersen, T. L. (2020). Generative Art by Thomas Lin Pedersen. Retrieved September 13, 2023, from Data Imaginist website: https://www.data-imaginist.com/art ‌](https://www.data-imaginist.com/art)
 
-![Generative Art Example 2](GA_Image2.jpg)
+![ Generative Art Example 2](GA_Image2.jpg)
 
 [Bailey, J. (2018, August 26). Artnome. Retrieved September 13, 2023, from Artnome website: https://www.artnome.com/news/2018/8/8/why-love-generative-art ‌](https://www.artnome.com/news/2018/8/8/why-love-generative-art)
+
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--
 
 ```{r}
 #Q3)
@@ -158,3 +162,31 @@ ggplot() +
 
 
 ```
+
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--
+
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--
+
+-   <div>
+
+    ```{r}
+    #Q4)
+
+    #This visualization investigates which nations generated the most plastic garbage in 2010 and #what proportion of it was mismanaged, but more importantly, it examines how this management #relates to the country's GDP per capita. 
+
+    #On the left of the graph, we can see the distribution of total plastic waste generation by each continent. The chart then segregates based on the country and the values are measured in #ascending order measuring tonnes per year.
+
+    #The right side follows into an estimation of the total percentage of waste that was inadequately disposed of which includes open disposal, uncontrolled landfills, and more. As the waste is not adequately disposed of the chances of it contaminating surrounding areas ncrease meaning the waste finds its way into oceans through winds, tides, or waterways. 
+
+    #Lastly, the extreme right of the chart shows every country's GDP per capita, which tells us about its national wealth and infrastructure - both of which have a crucial bearing on waste management.
+
+
+    ```
+
+    </div>
+
+![ ](Q4.jpg){fig-align="center"}
+
+[Who is Bottling Plastic Waste Pollution](https://www.behance.net/gallery/106936329/Plastic-Waste-Pollution-data-visualisation)
+
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--
