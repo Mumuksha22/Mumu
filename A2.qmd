@@ -3,11 +3,13 @@ title: "Assignment 2"
 ---
 
 ```{r}
-### Paul Murrell's R examples (selected)
+#Q1
+## Paul Murrell's R examples (selected)
 
 ## Start plotting from basics 
 # Note the order
-plot(pressure, pch=12)  # Can you change pch? Changed from 16 to 12
+plot(pressure, pch=14)  # Can you change pch?
+#Changed from 16 to 14
 text(150, 600, 
      "Pressure (mm Hg)\nversus\nTemperature (Celsius)")
 
@@ -22,24 +24,21 @@ par(mfrow=c(3, 2))
 # Scatterplot
 # Note the incremental additions
 
-
-```
-
-```{r}
 x <- c(0.5, 2, 4, 8, 12, 16)
 y1 <- c(1, 1.3, 1.9, 3.4, 3.9, 4.8)
 y2 <- c(4, .8, .5, .45, .4, .3)
+
 # Setting label orientation, margins c(bottom, left, top, right) & text size
 par(las=1, mar=c(4, 4, 2, 4), cex=.7) 
 plot.new()
 plot.window(range(x), c(0, 6))
 lines(x, y1)
 lines(x, y2)
-points(x, y1, pch=16, cex=1.5) # Try different cex value?  
-points(x, y2, pch=21, bg="wheat", cex=2)  # Different background color
+points(x, y1, pch=16, cex=2) # Try different cex value?  
+points(x, y2, pch=21, bg="wheat", cex=2)  # Different background color - changed from white to wheat
 par(col="gray50", fg="gray50", col.axis="gray50")
 axis(1, at=seq(0, 16, 4)) # What is the first number standing for?
-#The value 1 indicates that we are referring to the x-axis)
+#1 stands for the x-axis
 axis(2, at=seq(0, 6, 2))
 axis(4, at=seq(0, 6, 2))
 box(bty="u")
@@ -48,9 +47,7 @@ mtext("Responses per Travel", side=2, line=2, las=0, cex=0.8)
 mtext("Responses per Second", side=4, line=2, las=0, cex=0.8)
 text(4, 5, "Bird 131")
 par(mar=c(5.1, 4.1, 4.1, 2.1), col="black", fg="black", col.axis="black")
-```
 
-```{r}
 # Histogram
 # Random data
 Y <- rnorm(50)
@@ -63,9 +60,7 @@ hist(Y, breaks=seq(-3.5, 3.5), ylim=c(0, 0.5),
      col="gray80", freq=FALSE)
 lines(x, dnorm(x), lwd=2)
 par(mar=c(5.1, 4.1, 4.1, 2.1))
-```
 
-```{r}
 # Barplot
 par(mar=c(2, 3.1, 2, 2.1)) 
 midpts <- barplot(VADeaths, 
@@ -78,9 +73,7 @@ text(rep(midpts, each=5), apply(VADeaths, 2, cumsum) - VADeaths/2,
      col=rep(c("white", "black"), times=3:2), 
      cex=0.8)
 par(mar=c(5.1, 4.1, 4.1, 2.1))  
-```
 
-```{r}
 # Boxplot
 par(mar=c(3, 4.1, 2, 0))
 boxplot(len ~ dose, data = ToothGrowth,
@@ -97,9 +90,7 @@ legend(1.5, 9, c("Ascorbic acid", "Orange juice"),
        fill = c("white", "gray"), 
        bty="n")
 par(mar=c(5.1, 4.1, 4.1, 2.1))
-```
 
-```{r}
 # Persp
 x <- seq(-10, 10, length= 30)
 y <- x
@@ -118,11 +109,18 @@ pie.sales <- c(0.12, 0.3, 0.26, 0.16, 0.04, 0.12)
 names(pie.sales) <- c("Blueberry", "Cherry",
                       "Apple", "Boston Cream", "Other", "Vanilla")
 pie(pie.sales, col = gray(seq(0.3,1.0,length=6))) 
+
+# Exercise: Can you generate these charts individually?  Try these functions 
+# using another dataset. Be sure to work on the layout and margins
+
 ```
 
 ```{r}
 library(readr)
-hpindex <- read_csv("hpi3.csv") #import the csv file
+hpi <- read_csv("hpi3.csv") #import the csv file
+spec(hpi)
+summary(hpi)
+head(hpi)
 
 lifeexpec <- hpindex$`LIFE EXPECTANCY`
 hpi <- hpindex$HPI
@@ -132,67 +130,90 @@ ecofoot <- hpindex$`ECOLOGICAL FOOTPRINT`
 cont <- hpindex$CONTINENT
 
 # Scatterplot
-plot(lifeexpec, hpi, xlab = "Life Expectancy", ylab = "Happy Planet Index", pch=22, bg="lightblue")
+plot(lifeexpec, hpi, pch=21)
 title("Scatterplot: Life Expectancy vs. HPI")
-#xlabel <- "Life Expectancy"
-#ylabel <- "Happy Planet Index"
-#text((lifeexpec),(hpi), labels = c(xlabel, ylabel), pos = 0.5)
+xlabel <- "Life Expectancy"
+ylabel <- "Happy Planet Index"
+text(mean(lifeexpec), max(hpi), labels = c(xlabel, ylabel), pos = 0.5)
+
+
 ```
 
 ```{r}
-x <- c(3, 1, 2, 4, 5)
-y1 <- c(77.3, 80.3, 70.5, 83.8, 77.0)
-y2 <- c(60.2, 62.1,60.4, 60.1, 58.8)
+#install.packages("scatterplot3d")
+# 3D Scatterplot
+library("scatterplot3d")
+s3d <- scatterplot3d(lifeexpec, gdp, hpi, color="indianred4", pch=16, main="3D Scatterplot")
+s3d$plane3d(s3d$xyz.convert(mean(lifeexpec), mean(gdp), mean(hpi)))
 
-plot(x, y1, pch=15, axes=FALSE, xlab="", ylab="", ylim=c(0,100),col="hotpink4", main="Top 5 Countries (HPI & Life Expectancy)")
-axis(2, ylim=c(0,10),col="black",las=1)
-mtext("Life Expectancy",side=2,line=2.5)
+```
+
+```{r}
+# Barplot
+barplot(table(cont), main="Barplot of Continents", xlab="Continent", ylab="Frequency", col="lightpink1", )
+
+# Add a legend
+legend("topleft", 
+       legend = c("1 = South America", "2 = USA,CAN,AUS,NZ", "3 = Europe", "4 = ME Asia", "5 = Africa", "6 = South Asia", "7 = Eurasia", "8 = East Asia"), 
+       title = "Legend", cex = 0.45)
+
+
+
+
+```
+
+```{r}
+######HISTOGRAM######
+par(mfrow=c(1,1))
+par(mar=c(4.5, 4.1, 3.1, 4), xaxs = "i", yaxs = "i")
+#hpidensity <- density(hpi)
+hist(hpi,
+     xlab= 'Happiness Index', ylab = 'Density',
+     breaks=seq(0, 100), ylim=c(0, 10), 
+     col="turquoise", freq=TRUE)
+#mx <- hpif
+```
+
+```{r}
+slices <- c(84.9, 84.6, 83.6, 83.5, 83.8)
+lbls <- c("HongKong", "Japan", "Singapore", "Italy", "Switzerland")
+pct <- round(slices)
+lbls <- paste(lbls, pct)
+lbls <- paste(lbls, "%", sep = "")
+
+# Define custom colors for each slice
+custom_colors <- c("firebrick", "darkseagreen", "skyblue", "plum2", "coral")
+
+# Create the pie chart with custom colors
+pie(slices, labels = lbls, col = custom_colors,
+    main = "Top 5 Countries with the highest life expectancy")
+
+
+```
+
+```{r}
+# Sample data
+
+x <- c(1433783.7, 1366417.8, 329064.9, 270625.6, 216565.3, 211049.5, 200963.6, 163046.2, 145872.3, 127575.5)
+
+y <- c(42, 36, 37, 50, 45, 54, 34, 54, 35, 54)
+
+# Create a blank plot
+plot(x, y, type = "n", xlab = "Population", ylab = "HPI", main = "HPI vs Populations (Most populated)")
+
+# Add points
+points(round(x), y, pch = 16, col = "blue", cex = 1)
+
+# Add a box around the plot
 box()
 
-par(new=TRUE)
+# Add text labels
+text(x, y, labels = c("China", "India", "USA", "Indonesia", "Pakistan", "Brazil", "Nigeria", "Bangladesh", "Russia", "Mexico"), pos = 3, col = "black")
 
-plot(x, y2, pch=16,  xlab="", ylab="", ylim=c(0,100), 
-     axes=FALSE, col="olivedrab")
-
-mtext("Happiness Index",side=4,line=3) 
-axis(4, ylim=c(0,100), col="blue",col.axis="blue",las=1)
-
-axis(1, at= seq(0, 5, 1))
-mtext("Country",side=1,col="black",line=2.5) 
-
-lines(x, y1, type = "o", col = "hotpink4")
-
-lines(x, y2, type = "o", col = "olivedrab")
+# Add axis labels
+axis(1, at = x, labels = x, col = "black")
+axis(2, at = y, labels = y, col = "black")
 
 
-legend("bottomright",legend=c("1: Costa Rica","2:Vanuatu", "3:Colombia", "4:Switzerland","5:Ecuador"))
-```
 
-```{r}
-#barplot
-library(ggplot2)
-
-# Create data
-data <- data.frame(
-  continent=c("Latin America","N. America and Oceania","Western Europe","Middle East",
-         "Africa","South Asia", "Eastern Europe and Central Asia", "East Asia") ,  
-  meanHPI=c(44.8, 45.6, 44.4, 44.7, 43.8, 44.6, 44.5, 44.5)
-)
-
-ggplot(data, aes(x=continent, y=meanHPI)) + 
-  geom_bar(stat = "identity") +
-  ylim(0,46)
-```
-
-```{r}
-#piechart
-x <- c(300991, 204169, 1092620, 478310, 172329, 46536, 607281, 366241)
-labels <- c("L America","N. America and Oceania","W Europe","ME Asiat",
-         "Africa","S Asia", "E Europe and C Asia", "E Asia")
-
-# Give the chart file a name.
-#png(file = "city_title_colours.jpg")
-
-# Plot the chart with title and rainbow color pallet.
-pie(x, labels, main = "GDP Pie Chart", col = rainbow(length(x)))
 ```
