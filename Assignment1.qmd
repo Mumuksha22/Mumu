@@ -73,11 +73,11 @@ par(op)
 
 ```
 
-[![ Generative Art Example 1](GA_Image1.jpg){fig-align="center"}](https://www.data-imaginist.com/art)
+[![Generative Art Example 1](GA_Image1.jpg){fig-align="center"}](https://www.data-imaginist.com/art)
 
 [Pedersen, T. L. (2020). Generative Art by Thomas Lin Pedersen. Retrieved September 13, 2023, from Data Imaginist website: https://www.data-imaginist.com/art ‌](https://www.data-imaginist.com/art)
 
-![ Generative Art Example 2](GA_Image2.jpg)
+![Generative Art Example 2](GA_Image2.jpg)
 
 [Bailey, J. (2018, August 26). Artnome. Retrieved September 13, 2023, from Artnome website: https://www.artnome.com/news/2018/8/8/why-love-generative-art ‌](https://www.artnome.com/news/2018/8/8/why-love-generative-art)
 
@@ -185,7 +185,7 @@ ggplot() +
 
     </div>
 
-![ ](Q4.jpg){fig-align="center"}
+![](Q4.jpg){fig-align="center"}
 
 [Who is Bottling Plastic Waste Pollution](https://www.behance.net/gallery/106936329/Plastic-Waste-Pollution-data-visualisation)
 
