@@ -172,16 +172,21 @@ legend("bottomright",legend=c("1: Costa Rica","2:Vanuatu", "3:Colombia", "4:Swit
 #barplot
 library(ggplot2)
 
-# Create data
 data <- data.frame(
-  continent=c("Latin America","N. America and Oceania","Western Europe","Middle East",
-         "Africa","South Asia", "Eastern Europe and Central Asia", "East Asia") ,  
-  meanHPI=c(44.8, 45.6, 44.4, 44.7, 43.8, 44.6, 44.5, 44.5)
+  continent = c("Latin America", "N. America and Oceania", "Western Europe", "Middle East",
+                 "Africa", "South Asia", "Eastern Europe and Central Asia", "East Asia"),
+  meanHPI = c(44.8, 45.6, 44.4, 44.7, 43.8, 44.6, 44.5, 44.5)
 )
 
-ggplot(data, aes(x=continent, y=meanHPI)) + 
+ggplot(data, aes(x = continent, y = meanHPI, fill = "Green")) +
   geom_bar(stat = "identity") +
-  ylim(0,46)
+  ylim(0, 46) +
+  geom_text(aes(label = meanHPI), vjust = -0.5, size = 3) + # Add labels above bars
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +   # Rotate x-axis labels
+  scale_fill_manual(values = "palegreen4") +  # Set bar color to green
+  labs(fill = "Continents")  # Remove the legend title for fill
+
+
 ```
 
 ```{r}
