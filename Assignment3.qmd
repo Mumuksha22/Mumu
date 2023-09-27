@@ -1,0 +1,214 @@
+---
+title: "Assignment 3"
+---
+
+```{r}
+## QUESTION 1
+## Anscombe (1973) Quartlet
+
+data(anscombe)  # Load Anscombe's data
+#View(anscombe) # View the data
+summary(anscombe)
+
+## Simple version
+plot(anscombe$x1,anscombe$y1)
+summary(anscombe)
+
+# Create four model objects
+lm1 <- lm(y1 ~ x1, data=anscombe)
+summary(lm1)
+lm2 <- lm(y2 ~ x2, data=anscombe)
+summary(lm2)
+lm3 <- lm(y3 ~ x3, data=anscombe)
+summary(lm3)
+lm4 <- lm(y4 ~ x4, data=anscombe)
+summary(lm4)
+plot(anscombe$x1,anscombe$y1)
+abline(coefficients(lm1))
+plot(anscombe$x2,anscombe$y2)
+abline(coefficients(lm2))
+plot(anscombe$x3,anscombe$y3)
+abline(coefficients(lm3))
+plot(anscombe$x4,anscombe$y4)
+abline(coefficients(lm4))
+
+
+## Fancy version (per help file)
+
+ff <- y ~ x
+mods <- setNames(as.list(1:4), paste0("lm", 1:4))
+
+# Plot using for loop
+for(i in 1:4) {
+  ff[2:3] <- lapply(paste0(c("y","x"), i), as.name)
+  ## or   ff[[2]] <- as.name(paste0("y", i))
+  ##      ff[[3]] <- as.name(paste0("x", i))
+  mods[[i]] <- lmi <- lm(ff, data = anscombe)
+  print(anova(lmi))
+}
+
+sapply(mods, coef)  # Note the use of this function
+lapply(mods, function(fm) coef(summary(fm)))
+
+# Preparing for the plots
+op <- par(mfrow = c(2, 2), mar = 0.1+c(4,4,1,1), oma =  c(0, 0, 2, 0))
+
+# Plot charts using for loop
+for(i in 1:4) {
+  ff[2:3] <- lapply(paste0(c("y","x"), i), as.name)
+  plot(ff, data = anscombe, col = "darkgreen", pch = 17, bg = "seagreen3", cex = 1.2,
+       xlim = c(3, 19), ylim = c(3, 13))
+  abline(mods[[i]], col = "indianred3")
+}
+mtext("Anscombe's 4 Regression data sets", outer = TRUE, cex = 1.5)
+par(op)
+
+
+#ANSWERS
+#Part A
+#Anscombe's Quartet is an extremely interesting dataset to oberve. From the first glance, we can
+#see that all the regression models look different but each model has the same descriptive statistics. These graphs #are a way to show how important a grpah's visulaisation is when we are analysing data. 
+
+#Regression 1 shows that we have a linear relationaship with good enough trend line.
+#Regression 2 shows a non-linear relationship 
+#Regression 3 also has a linear relationship but we can observe the outlier in the graph.
+#Regression 4 doesn't show any particular relationship but we can see that the outlier has a great impact on the #fitted line. 
+#The interesting part about all 4 graphs is that their fitted lines are the same. This tells us how valuable each point is while estimating the trend line. For instance, regression 4 has one outlier but that outlier's value is high enough to dictate the trend line which shows a linear relationship between the variables. 
+```
+
+```{r}
+### Paul Murrell's R examples (selected)
+
+## Start plotting from basics 
+# Note the order
+plot(pressure, pch=12)  # Can you change pch? Changed from 16 to 12
+text(150, 600, 
+     "Pressure (mm Hg)\nversus\nTemperature (Celsius)")
+
+#  Examples of standard high-level plots 
+#  In each case, extra output is also added using low-level 
+#  plotting functions.
+# 
+
+par(family = "serif", cex.axis = 1.2)
+
+# Setting the parameter (3 rows by 2 cols)
+par(mfrow=c(3, 2))
+
+# Scatterplot
+# Note the incremental additions
+
+x <- c(0.5, 2, 4, 8, 12, 16)
+y1 <- c(1, 1.3, 1.9, 3.4, 3.9, 4.8)
+y2 <- c(4, .8, .5, .45, .4, .3)
+# Setting label orientation, margins c(bottom, left, top, right) & text size
+par(las=1, mar=c(4, 4, 2, 4), cex=.7) 
+plot.new()
+plot.window(range(x), c(0, 6))
+lines(x, y1)
+lines(x, y2)
+points(x, y1, pch=16, cex=1.5) # Try different cex value?  
+points(x, y2, pch=22, bg="thistle2", cex=2)  # Different background color
+par(col="gray60", fg="gray60", col.axis="gray60")
+axis(1, at=seq(0, 16, 4)) # What is the first number standing for?
+#The value 1 indicates that we are referring to the x-axis)
+axis(2, at=seq(0, 6, 2))
+axis(4, at=seq(0, 6, 2))
+box(bty="u")
+mtext("Travel Time (s)", side=1, line=2, cex=0.8)
+mtext("Responses per Travel", side=2, line=2, las=0, cex=0.8)
+mtext("Responses per Second", side=4, line=2, las=0, cex=0.8)
+text(4, 5, "Bird 131")
+par(mar=c(5.1, 4.1, 4.1, 2.1), col="black", fg="black", col.axis="black")
+
+# Histogram
+# Random data
+Y <- rnorm(50)
+# Make sure no Y exceed [-3.5, 3.5]
+Y[Y < -3.5 | Y > 3.5] <- NA # Selection/set range
+x <- seq(-3.5, 3.5, .1)
+dn <- dnorm(x)
+par(mar=c(4.5, 4.1, 3.1, 0))
+hist(Y, breaks=seq(-3.5, 3.5), ylim=c(0, 0.5), 
+     col="seashell1", freq=FALSE)
+lines(x, dnorm(x), lwd=2)
+par(mar=c(5.1, 4.1, 4.1, 2.1))
+
+# Barplot
+par(mar=c(2, 3.1, 2, 2.1)) 
+midpts <- barplot(VADeaths, 
+                  col=gray(0.1 + seq(1, 9, 2)/11), 
+                  names=rep("", 4))
+mtext(sub(" ", "\n", colnames(VADeaths)),
+      at=midpts, side=1, line=0.5, cex=0.5)
+text(rep(midpts, each=5), apply(VADeaths, 2, cumsum) - VADeaths/2,
+     VADeaths, 
+     col=rep(c("white", "black"), times=3:2), 
+     cex=0.8)
+par(mar=c(5.1, 4.1, 4.1, 2.1)) 
+
+# Boxplot
+par(mar=c(3, 4.1, 2, 0))
+boxplot(len ~ dose, data = ToothGrowth,
+        boxwex = 0.25, at = 1:3 - 0.2,
+        subset= supp == "VC", col="gray80",
+        xlab="",
+        ylab="tooth length", ylim=c(0,35))
+mtext("Vitamin C dose (mg)", side=1, line=2.5, cex=0.8)
+boxplot(len ~ dose, data = ToothGrowth, add = TRUE,
+        boxwex = 0.25, at = 1:3 + 0.2,
+        
+        subset= supp == "OJ")
+legend(1.5, 9, c("Ascorbic acid", "Orange juice"), 
+       fill = c("ivory", "snow4"), 
+       bty="n")
+par(mar=c(5.1, 4.1, 4.1, 2.1))
+
+
+# Persp
+x <- seq(-10, 10, length= 30)
+y <- x
+f <- function(x,y) { r <- sqrt(x^2+y^2); 10 * sin(r)/r }
+z <- outer(x, y, f)
+z[is.na(z)] <- 1
+# 0.5 to include z axis label
+par(mar=c(0, 0.5, 0, 0), lwd=0.5)
+persp(x, y, z, theta = 30, phi = 30, 
+      expand = 0.5)
+par(mar=c(5.1, 4.1, 4.1, 2.1), lwd=1)
+
+# Piechart
+par(mar=c(0, 2, 1, 2), xpd=FALSE, cex=0.5)
+pie.sales <- c(0.12, 0.3, 0.26, 0.16, 0.04, 0.12)
+names(pie.sales) <- c("Blueberry", "Cherry",
+                      "Apple", "Boston Cream", "Other", "Vanilla")
+pie(pie.sales, col = c("lightpink", "lightgreen", "lightblue", "lightyellow", "tan1", "lightcyan")) # Custom colors
+
+```
+
+```{r}
+## Download COVID data from OWID GitHub
+owidall = read.csv("https://github.com/owid/covid-19-data/blob/master/public/data/owid-covid-data.csv?raw=true")
+# Deselect cases/rows with OWID
+owidall = owidall[!grepl("^OWID", owidall$iso_code), ]
+# Subset by continent: Europe
+owideu = subset(owidall, continent=="Europe")
+
+#selected_countries <- c("Spain", "Germany", "Ukraine", "Italy")
+#owideu_selected <- subset(owideu, location %in% selected_countries)
+
+# Change NA values to 0 for total deaths
+#owideu["total_deaths"][is.na(owideu["total_deaths"])] <- 0
+
+library(ggplot2)
+
+dates <- c("2020-01", "2020-02", "2020-04", "2020-06", "2020-08", 
+           "2020-10", "2020-11", "2021-01", "2021-03", "2021-05", "2021-07", 
+           "2021-08", "2021-10", "2021-12", "2022-04", "2022-06", "2022-09", 
+           "2022-11", "2023-01", "2023-03", "2023-04", "2023-06", "2023-08")
+
+variable <- ggplot(owideu, aes(x=date, y=new_deaths)) + geom_point(color='deeppink') + scale_y_continuous(limits=c(0, 7000)) + 
+  xlab("Date") + ylab("COVID Deaths in Europe (Daily)")
+ 
+variable
+```

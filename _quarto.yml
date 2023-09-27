@@ -10,6 +10,7 @@ website:
         text: Home
       - Assignment1.qmd
       - Assignment2.qmd
+      - Assignment3.qmd
 
 format:
   html:
