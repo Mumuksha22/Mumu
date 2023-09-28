@@ -77,6 +77,7 @@ par(op)
 ```
 
 ```{r}
+#Q2
 ### Paul Murrell's R examples (selected)
 
 ## Start plotting from basics 
@@ -187,6 +188,8 @@ pie(pie.sales, col = c("lightpink", "lightgreen", "lightblue", "lightyellow", "t
 ```
 
 ```{r}
+#Q4 - Prehackathon
+
 ## Download COVID data from OWID GitHub
 owidall = read.csv("https://github.com/owid/covid-19-data/blob/master/public/data/owid-covid-data.csv?raw=true")
 # Deselect cases/rows with OWID
@@ -211,4 +214,20 @@ variable <- ggplot(owideu, aes(x=date, y=new_deaths)) + geom_point(color='deeppi
   xlab("Date") + ylab("COVID Deaths in Europe (Daily)")
  
 variable
+```
+
+```{r}
+
+# Q3 EXAMPLE USING GGPLOT
+
+# Create a ggplot for the first regression model (lm1)
+ggplot(anscombe, aes(x = x1, y = y1)) +
+  geom_point(colour = "darkgreen", size = 3, shape = 6, fill = "seagreen3") +
+  geom_abline(intercept = coef(lm1)[1], slope = coef(lm1)[2], color = "indianred3") +
+  xlim(3, 19) + ylim(3, 13) +
+  labs(title = "Regression Plot (lm1)",
+       x = "X1",
+       y = "Y1") +
+  theme_minimal()
+
 ```
