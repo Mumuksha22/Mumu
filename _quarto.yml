@@ -11,6 +11,7 @@ website:
       - Assignment1.qmd
       - Assignment2.qmd
       - Assignment3.qmd
+      - Assignment4.qmd
 
 format:
   html:

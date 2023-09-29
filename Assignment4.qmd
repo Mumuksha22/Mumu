@@ -1,0 +1,85 @@
+---
+title: "Assignment 4"
+---
+
+```{r}
+# Hackathon (First 4 Graphs)
+
+library(ggplot2)
+
+#Create a data frame with the sales data
+sales_data <- data.frame(Fruit = c("Apples", "Oranges"), Quantity = c(25, 30))
+
+#Create a bar chart using ggplot2
+bar_chart <- ggplot(sales_data, aes(x = Fruit, y = Quantity)) +
+  geom_bar(stat = "identity", fill = "skyblue", width = 0.5) +
+  labs(
+    title = "Sales of Apples and Oranges",
+    x = "Fruit",
+    y = "Quantity Sold"
+  )
+
+#Display the bar chart
+print(bar_chart)
+
+##Create a data frame with the sales data
+sales_data <- data.frame(
+  Fruit = c("Small Apples", "Medium Apples", "Large Apples", "Small Oranges", "Large Oranges"),
+  Quantity = c(10, 15, 20, 8, 25),
+  Width = c(0.3, 0.5, 0.7, 0.3, 0.7)  # Specify the widths for each bar
+)
+
+```
+
+```{r}
+# Create a data frame with the sales data
+sales_data <- data.frame(
+  Fruit = c("Small Apples", "Medium Apples", "Large Apples", "Small Oranges", "Large Oranges"),
+  Quantity = c(10, 15, 20, 8, 25),
+  Width = c(0.3, 0.5, 0.7, 0.3, 0.7)  # Specify the widths for each bar
+)
+
+# Convert the "Width" column to numeric
+sales_data$Width <- as.numeric(sales_data$Width)
+
+# Create a variable-width column chart using ggplot2
+variable_width_chart <- ggplot(sales_data, aes(x = Fruit, y = Quantity, width = Width)) +
+  geom_bar(stat = "identity", fill = "plum") +
+  labs(
+    title = "Variable-Width Column Chart",
+    x = "Fruit",
+    y = "Quantity Sold"
+  ) +
+  theme_minimal()  # Use a minimal theme for better visibility
+
+# Display the variable-width column chart
+print(variable_width_chart)
+
+
+```
+
+```{r}
+# Load the ggplot2 package
+library(ggplot2)
+
+# Create a data frame with the sales data, including additional fruits
+sales_data <- data.frame(
+  Fruit = c("Small Apples", "Medium Apples", "Large Apples", "Small Oranges", "Large Oranges", "Small Bananas", "Large Bananas"),
+  Quantity = c(10, 15, 20, 8, 25, 12, 18)
+)
+
+# Create a horizontal bar chart using ggplot2
+horizontal_bar_chart <- ggplot(sales_data, aes(x = Quantity, y = Fruit)) +
+  geom_bar(stat = "identity", fill = "skyblue4") +
+  labs(
+    title = "Horizontal Bar Chart",
+    x = "Quantity Sold",
+    y = "Fruit"
+  ) +
+  theme_minimal()
+
+# Display the horizontal bar chart
+print(horizontal_bar_chart)
+
+
+```
