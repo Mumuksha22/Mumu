@@ -34,9 +34,6 @@ par(mar=c(5, 4, 4, 6))  # Adjust margins for labels
 barplot(bar_heights, names.arg=bar_names, main="Economics Class Grades", 
         xlab="Students", ylab="Grades", col="lightyellow", ylim=c(0, 100))
 
-# Rotate x-axis labels for better readability
-axis(1, at=2:length(bar_names), labels=bar_names, las=2)
-
 # Add a legend (optional)
 legend("topright", legend="Grades", fill="lightyellow")
 
@@ -61,12 +58,6 @@ barplot(votes, names.arg=cuisines, main="Favorite Cuisines", xlab="Votes", horiz
 # Sample data
 fruits <- c("Apple", "Banana", "Orange", "Grapes", "Mango")
 counts <- c(15, 20, 10, 12, 18)
-
-# Create a pie chart
-pie(counts, labels = fruits, main = "Favorite Fruits")
-
-# Add a legend
-legend("topright", legend = fruits, fill = rainbow(length(fruits)))
 
 # You can also add percentages to the slices
 pct <- round(counts / sum(counts) * 100, 1)
@@ -188,10 +179,6 @@ scatterplot <- ggplot(data, aes(x = Country, y = Wins)) +
   geom_point(size = 3, color = "mediumpurple", pch = 11) +
   labs(title = "FIFA World Cup Wins for Top 5 Countries", x = "Country", y = "World Cup Wins") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
-
-# Print the scatterplot
-print(scatterplot)
-
 
 # Print each plot one below the other
 print(histogram)
