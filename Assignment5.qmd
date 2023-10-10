@@ -1,0 +1,230 @@
+---
+title: "Assignment 5"
+---
+
+```{r}
+# Generate random traffic data
+set.seed(123)  # Set seed for reproducibility
+traffic_data <- rpois(100, lambda = 20)  # Simulate traffic data with an average of 20 vehicles
+
+# Create a histogram
+hist(traffic_data, 
+     main = "Traffic Histogram",
+     xlab = "Number of Vehicles",
+     ylab = "Frequency",
+     col = "plum",  # Color of the bars
+     border = "black",  # Border color of the bars
+     xlim = c(0, max(traffic_data) + 5))  # Set the x-axis limits
+
+```
+
+```{r}
+# Sample grades data
+students <- c("Student A", "Student B", "Student C", "Student D", "Student E")
+grades <- c(90, 85, 78, 92, 88)
+
+# Create a vertical bar chart
+bar_heights <- grades
+bar_names <- students
+
+# Set up the plotting area
+par(mar=c(5, 4, 4, 6))  # Adjust margins for labels
+
+# Create the bar chart
+barplot(bar_heights, names.arg=bar_names, main="Economics Class Grades", 
+        xlab="Students", ylab="Grades", col="lightyellow", ylim=c(0, 100))
+
+# Rotate x-axis labels for better readability
+axis(1, at=2:length(bar_names), labels=bar_names, las=2)
+
+# Add a legend (optional)
+legend("topright", legend="Grades", fill="lightyellow")
+
+```
+
+```{r}
+# Sample data for favorite cuisines
+cuisines <- c("Italian", "Mexican", "Japanese", "Indian", "Chinese")
+votes <- c(15, 12, 9, 10, 8)
+
+# Set wider right margin to create space for labels
+par(mar=c(5, 5, 4, 10))  # c(bottom, left, top, right)
+
+# Create a horizontal bar chart with fixed labels on the y-axis
+barplot(votes, names.arg=cuisines, main="Favorite Cuisines", xlab="Votes", horiz=TRUE, col="skyblue", las=1)
+
+
+
+```
+
+```{r}
+# Sample data
+fruits <- c("Apple", "Banana", "Orange", "Grapes", "Mango")
+counts <- c(15, 20, 10, 12, 18)
+
+# Create a pie chart
+pie(counts, labels = fruits, main = "Favorite Fruits")
+
+# Add a legend
+legend("topright", legend = fruits, fill = rainbow(length(fruits)))
+
+# You can also add percentages to the slices
+pct <- round(counts / sum(counts) * 100, 1)
+label <- paste(fruits, ": ", pct, "%", sep = "")
+pie(counts, labels = label, main = "Favorite Fruits")
+
+# Sample data for the top 5 countries and their World Cup wins
+countries <- c("Brazil", "Germany", "Italy", "Argentina", "France")
+world_cup_wins <- c(5, 4, 4, 2, 2)
+
+# Create a scatterplot
+plot(x = 1:5, y = world_cup_wins, type = "n", xlab = "Country", ylab = "World Cup Wins", main = "FIFA World Cup Wins for Top 5 Countries")
+points(x = 1:5, y = world_cup_wins, pch = 11, col = "mediumpurple")
+text(x = 1:5, y = world_cup_wins + 0.2, labels = countries, pos = 3, col = "black")
+
+# Add gridlines (optional)
+grid()
+
+# Customize axis labels
+axis(1, at = 1:5, labels = countries, las = 1)  # x-axis labels
+
+# Add a legend (optional)
+legend("topright", legend = "World Cup Wins", col = "mediumpurple", pch = 11)
+
+```
+
+```{r}
+# Generate random data for three groups
+set.seed(123)  # Setting seed for reproducibility
+group1 <- rnorm(50, mean=0, sd=1)
+group2 <- rnorm(50, mean=2, sd=1)
+group3 <- rnorm(50, mean=1, sd=2)
+
+# Combine the data into a list
+data <- list(Group1 = group1, Group2 = group2, Group3 = group3)
+
+# Create a boxplot
+boxplot(data, main="Group Activity W", xlab="Groups", ylab="Wins")
+
+
+```
+
+```{r}
+# Load the necessary libraries
+library(ggplot2)
+
+# Generate random traffic data
+set.seed(123)
+traffic_data <- rpois(100, lambda = 20)
+traffic_df <- data.frame(Count = traffic_data)
+
+# Create a histogram using ggplot2
+histogram <- ggplot(traffic_df, aes(x = Count)) +
+  geom_histogram(binwidth = 1, fill = "plum", color = "black") +
+  labs(title = "Traffic Histogram", x = "Number of Vehicles", y = "Frequency") +
+  xlim(0, max(traffic_data) + 5)
+
+# Sample grades data
+students <- c("Student A", "Student B", "Student C", "Student D", "Student E")
+grades <- c(90, 85, 78, 92, 88)
+
+# Create a data frame with matching number of rows
+grades_df <- data.frame(Student = students, Grade = grades)
+
+# Create a vertical bar chart using ggplot2
+bar_chart <- ggplot(grades_df, aes(x = Student, y = Grade)) +
+  geom_bar(stat = "identity", fill = "lightyellow") +
+  labs(title = "Economics Class Grades", x = "Students", y = "Grades") +
+  ylim(0, 100) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
+
+# Sample data for favorite cuisines
+cuisines_df <- data.frame(Cuisine = cuisines, Votes = votes)
+
+# Create a horizontal bar chart using ggplot2
+horizontal_bar <- ggplot(cuisines_df, aes(x = Votes, y = Cuisine)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(title = "Favorite Cuisines", x = "Votes", y = NULL) +
+  theme(axis.text.y = element_text(hjust = 0))
+
+# Sample data for favorite fruits
+fruits_df <- data.frame(Fruit = fruits, Counts = counts)
+
+# Create a pie chart using ggplot2 with percentage labels
+pie_chart <- ggplot(fruits_df, aes(x = "", y = Counts, fill = Fruit)) +
+  geom_bar(stat = "identity") +
+  coord_polar("y", start = 0) +
+  labs(title = "Favorite Fruits") +
+  theme_void() +
+  theme(legend.position = "top") +
+  geom_text(aes(label = scales::percent(Counts / sum(counts), accuracy = 0.1)),
+            position = position_stack(vjust = 0.5),
+            color = "white")
+
+# Print the pie chart with percentage labels
+#print(pie_chart)
+
+# Generate random data for boxplot
+set.seed(123)
+group1 <- rnorm(50, mean = 0, sd = 1)
+group2 <- rnorm(50, mean = 2, sd = 1)
+group3 <- rnorm(50, mean = 1, sd = 2)
+boxplot_data <- data.frame(Group = factor(rep(c("Group1", "Group2", "Group3"), each = 50)), Wins = c(group1, group2, group3))
+
+# Create a boxplot using ggplot2
+box_plot <- ggplot(boxplot_data, aes(x = Group, y = Wins)) +
+  geom_boxplot(fill = "palegreen3") +
+  labs(title = "Group Activity Wins", x = "Groups", y = "Wins")
+
+# Sample data for the top 5 countries and their World Cup wins
+countries <- c("Brazil", "Germany", "Italy", "Argentina", "France")
+world_cup_wins <- c(5, 4, 4, 2, 2)
+
+# Create a data frame with the data
+data <- data.frame(Country = countries, Wins = world_cup_wins)
+
+# Create a scatterplot using ggplot2
+scatterplot <- ggplot(data, aes(x = Country, y = Wins)) +
+  geom_point(size = 3, color = "mediumpurple", pch = 11) +
+  labs(title = "FIFA World Cup Wins for Top 5 Countries", x = "Country", y = "World Cup Wins") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
+
+# Print the scatterplot
+print(scatterplot)
+
+
+# Print each plot one below the other
+print(histogram)
+print(bar_chart)
+print(horizontal_bar)
+print(pie_chart)
+print(box_plot)
+print(scatterplot)
+```
+
+```{r}
+# Load the necessary libraries
+library(ggplot2)
+
+# Sample data for favorite fruits
+fruits_df <- data.frame(Fruit = fruits, Counts = counts)
+
+# Create a pie chart using ggplot2 with percentage labels
+pie_chart <- ggplot(fruits_df, aes(x = "", y = Counts, fill = Fruit)) +
+  geom_bar(stat = "identity") +
+  coord_polar("y", start = 0) +
+  labs(title = "Favorite Fruits") +
+  theme_void() +
+  theme(legend.position = "top") +
+  geom_text(aes(label = scales::percent(Counts / sum(counts), accuracy = 0.1)),
+            position = position_stack(vjust = 0.5),
+            color = "white")
+
+# Export the pie chart in different formats
+ggsave("pie_chart.pdf", plot = pie_chart, device = "pdf")
+ggsave("pie_chart.jpg", plot = pie_chart, device = "jpeg", dpi = 300)  # Specify dpi for jpg
+ggsave("pie_chart.svg", plot = pie_chart, device = "svg")
+ggsave("pie_chart.tiff", plot = pie_chart, device = "tiff")
+ggsave("pie_chart.bmp", plot = pie_chart, device = "bmp")
+
+```

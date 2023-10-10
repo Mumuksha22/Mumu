@@ -3,83 +3,85 @@ title: "Assignment 4"
 ---
 
 ```{r}
-# Hackathon (First 4 Graphs)
+# Hackathon 
+
+
+#Graph 1
 
 library(ggplot2)
 
-#Create a data frame with the sales data
-sales_data <- data.frame(Fruit = c("Apples", "Oranges"), Quantity = c(25, 30))
-
-#Create a bar chart using ggplot2
-bar_chart <- ggplot(sales_data, aes(x = Fruit, y = Quantity)) +
-  geom_bar(stat = "identity", fill = "skyblue", width = 0.5) +
-  labs(
-    title = "Sales of Apples and Oranges",
-    x = "Fruit",
-    y = "Quantity Sold"
-  )
-
-#Display the bar chart
-print(bar_chart)
-
-##Create a data frame with the sales data
 sales_data <- data.frame(
   Fruit = c("Small Apples", "Medium Apples", "Large Apples", "Small Oranges", "Large Oranges"),
   Quantity = c(10, 15, 20, 8, 25),
   Width = c(0.3, 0.5, 0.7, 0.3, 0.7)  # Specify the widths for each bar
 )
 
+chart1 <- ggplot(sales_data, aes(x = Fruit, y = Quantity, width = Width)) +
+  geom_bar(stat = "identity", fill = "coral") +
+  labs(title = "Sales for Fruits of Different Sizes", x = "Fruit", y = "Quantity Sold") +
+  theme(text=element_text(size=12,  family="serif"), plot.title = element_text(hjust = 0.5))
+  
+print(chart1)
+
+
 ```
 
 ```{r}
-# Create a data frame with the sales data
-sales_data <- data.frame(
-  Fruit = c("Small Apples", "Medium Apples", "Large Apples", "Small Oranges", "Large Oranges"),
-  Quantity = c(10, 15, 20, 8, 25),
-  Width = c(0.3, 0.5, 0.7, 0.3, 0.7)  # Specify the widths for each bar
+#install.packages("gridExtra")
+library(gridExtra)
+
+data1 <- data.frame(
+  Product = c("A", "B", "C", "D"),
+  Revenue = c(5000, 7000, 6500, 3000)
 )
 
-# Convert the "Width" column to numeric
-sales_data$Width <- as.numeric(sales_data$Width)
+data2 <- data.frame(
+  Product = c("A", "B", "C", "D"),
+  Revenue = c(2000, 5000, 6000, 1000)
+)
 
-# Create a variable-width column chart using ggplot2
-variable_width_chart <- ggplot(sales_data, aes(x = Fruit, y = Quantity, width = Width)) +
-  geom_bar(stat = "identity", fill = "plum") +
-  labs(
-    title = "Variable-Width Column Chart",
-    x = "Fruit",
-    y = "Quantity Sold"
-  ) +
-  theme_minimal()  # Use a minimal theme for better visibility
+store1 <- ggplot(data1, aes(x = Product, y = Revenue)) +
+  geom_bar(stat = "identity", fill = "midnightblue", alpha = 0.7) +
+  labs(title = "Store 1: Product Revenue", x = "Product Type", y = "Revenue (USD)") +
+  theme(text=element_text(size=12, family="serif"), plot.title = element_text(hjust = 0.5))
 
-# Display the variable-width column chart
-print(variable_width_chart)
+store2 <- ggplot(data2, aes(x = Product, y = Revenue)) +
+  geom_bar(stat = "identity", fill = "seagreen4", alpha = 0.7) +
+  labs(title = "Store 2: Product Revenue", x = "Product Type", y = "Revenue (USD)") +
+  theme(text=element_text(size=12, family="serif"), plot.title = element_text(hjust = 0.5))
+
+combined_chart <- grid.arrange(store1, store2, ncol = 2)
 
 
 ```
 
 ```{r}
-# Load the ggplot2 package
-library(ggplot2)
-
-# Create a data frame with the sales data, including additional fruits
 sales_data <- data.frame(
-  Fruit = c("Small Apples", "Medium Apples", "Large Apples", "Small Oranges", "Large Oranges", "Small Bananas", "Large Bananas"),
+  Fruit = c("Apples", "Oranges", "Pears", "Kiwis", "Bananas", "Pineapples", "Peaches"),
   Quantity = c(10, 15, 20, 8, 25, 12, 18)
 )
 
-# Create a horizontal bar chart using ggplot2
-horizontal_bar_chart <- ggplot(sales_data, aes(x = Quantity, y = Fruit)) +
-  geom_bar(stat = "identity", fill = "skyblue4") +
-  labs(
-    title = "Horizontal Bar Chart",
-    x = "Quantity Sold",
-    y = "Fruit"
-  ) +
-  theme_minimal()
+chart3 <- ggplot(sales_data, aes(x = Quantity, y = Fruit)) +
+  geom_bar(stat = "identity", fill = "darkslategray4") +
+  labs(title = "Sales for Different Fruits", x = "Quantity Sold", y = "Type of Fruit") + 
+  theme(text=element_text(size=12, family="serif"), plot.title = element_text(hjust = 0.5))
 
-# Display the horizontal bar chart
-print(horizontal_bar_chart)
+print(chart3)
 
+```
 
+```{r}
+hobbies <- c("Baking", "Drawing", "Reading")
+data1 <- c(20, 30, 15)
+data2 <- c(25, 15, 10)
+data3 <- c(15, 10, 13)
+
+data_matrix <- matrix(c(data1, data2, data3), nrow = length(hobbies), byrow = TRUE)
+
+bar_colors <- c("firebrick", "navajowhite3", "darkolivegreen")
+bar_labels <- c("Yes", "No", "Maybe")
+
+barplot(data_matrix, beside = TRUE, col = bar_colors, names.arg = hobbies, main = "Survey Reponses to Hobby Interests", xlab = "Hobby Categories", ylab = "Total Number of Reponses", family="serif")
+
+legend("topright", legend = bar_labels, fill = bar_colors)
 ```
