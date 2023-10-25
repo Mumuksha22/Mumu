@@ -1,0 +1,10 @@
+---
+title: "Assignment 6"
+format: html
+editor: visual
+---
+
+```{r}
+knitr::include_app("https://mumuksha22.shinyapps.io/DV12/")
+
+```
