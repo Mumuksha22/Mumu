@@ -3,5 +3,3 @@ title: "Final Project"
 format: html
 editor: visual
 ---
-
-[Final Dashboard](https://github.com/Mumuksha22/Mumu/blob/main/finalproject.html)

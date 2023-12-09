@@ -17,7 +17,7 @@ knitr::include_graphics("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1
 
 ```
 
-------------------------------------------------------------------------
+***
 
 This storyboard delivers our final project product by visualizing Formula 1 Racing data focused on analyzing information on the drivers throughout different eras and the key to their success.
 
@@ -29,14 +29,13 @@ knitr::include_graphics("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/re
 
 ```
 
-------------------------------------------------------------------------
-
+*** 
 Multiple linear regression was utilized to determine which factors are important to evaluate the best driver.\
 \
 Wins = b0 + (Pole Position) X1 + (Total Points) X2 + (Fastest Laps) X3 + (Podiums) X4 + (1st WDC Age) X5 + e\
 Note: b0 is the intercept of the regression line and e is the model error (residuals) or the variation in the model\
 \
-R\^2 = 0.9778, p-value = 6.995e-05\
+R^2 = 0.9778, p-value = 6.995e-05\
 \
 Tried to evaluate the height factor, however, the p-value was truly not significant since the p-value was 0.4155.\
 \
@@ -49,9 +48,9 @@ knitr::include_graphics("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/to
 
 ```
 
-------------------------------------------------------------------------
+*** 
 
-### Data showcase 3: 2009-2013 Pole Wins compared to Total Wins
+### Data showcase 3: 2009-2013 Pole Wins compared to Total Wins 
 
 ```{r echo=FALSE, out.width="50%", out.height="50%"}
 
@@ -60,7 +59,8 @@ knitr::include_graphics("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/po
 
 ```
 
-------------------------------------------------------------------------
+*** 
+
 
 ### Data showcase 4: 2014-2021 Turbo Hybrid Era
 
@@ -71,7 +71,7 @@ knitr::include_graphics("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/tu
 
 ```
 
-------------------------------------------------------------------------
+*** 
 
 ### Data showcase 5: Average Pit Stop Time from 2011-2021
 
@@ -152,9 +152,10 @@ pit_stop
 
 ```
 
-------------------------------------------------------------------------
+*** 
 
-### Data showcase 6: Total Points in 2021 for Different Racers
+
+### Data showcase 6: Total Points in 2021 for Different Racers 
 
 ```{r echo=FALSE}
 library(openxlsx)
@@ -195,9 +196,10 @@ ggplot(data = f1_data, aes(x = Race.Number, y = cumul, group = Driver.Name, colo
     axis.line = element_line(color = "white"))
 ```
 
-------------------------------------------------------------------------
+*** 
 
-### Data showcase 7: 2021 F1 Teams Total Points
+
+### Data showcase 7: 2021 F1 Teams Total Points 
 
 ```{r echo=FALSE, fig.width=8.5, fig.height=6.5}
 library(ggplot2)
@@ -236,9 +238,10 @@ ggplot(data, aes(x = teams, y = total_points, size = total_points, color = teams
 
 ```
 
-------------------------------------------------------------------------
+*** 
 
-### Data showcase 8: 2021 US Grand Prix Qualifying
+
+### Data showcase 8: 2021 US Grand Prix Qualifying 
 
 ```{r echo=FALSE, out.width="43%", out.height="43%"}
 
@@ -251,11 +254,11 @@ knitr::include_graphics("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/gr
 
 ```
 
-------------------------------------------------------------------------
-
+*** 
 These 2 graphs are created using the "f1dataR" library!
 
-### Data showcase 9: Fernando Alonso's Record Breaking Distance!
+
+### Data showcase 9: Fernando Alonso’s Record Breaking Distance! 
 
 ```{r echo=FALSE, fig.width=8.5, fig.height=4.8}
 
@@ -296,7 +299,7 @@ ggplot(rankings, aes(x = Category, y = Percent,
 
 ```
 
-------------------------------------------------------------------------
+*** 
 
 ### Data showcase 10: Wins per team by track since 2006
 
@@ -375,9 +378,10 @@ team_race_win
 
 ```
 
-------------------------------------------------------------------------
+*** 
 
-### Data showcase 11: Wins per driver since 2006
+
+### Data showcase 11: Wins per driver since 2006 
 
 ```{r echo=FALSE}
 f1_race_year <- sqldf("select*
@@ -400,9 +404,9 @@ ggplot(f1_wins_per_driver, aes(x= Wins, y= reorder(`Driver Name`,Wins)))+
 
 ```
 
-------------------------------------------------------------------------
+*** 
 
-### Data showcase 12: Frequency of Max Verstappen's & Lewis Hamilton's Finishing Positions
+### Data showcase 12: Frequency of Max Verstappen’s & Lewis Hamilton’s Finishing Positions
 
 ```{r echo=FALSE, fig.width=9, fig.height=4.8}
 library(openxlsx)
@@ -450,9 +454,9 @@ par(mfrow = c(1, 1))
 
 ```
 
-------------------------------------------------------------------------
+*** 
 
-### Data showcase 13: Most Wins for Each Racer at Various Circuits
+### Data showcase 13: Most Wins for Each Racer at Various Circuits 
 
 ```{r echo=FALSE, fig.width=11, fig.height=8}
 library(openxlsx)
@@ -478,9 +482,9 @@ ggplot(f1_data, aes(x = `Driver.Name`, y = `Total.Wins`, fill = `Circuit`)) +
         plot.title = element_text(hjust = 0.5))
 ```
 
-------------------------------------------------------------------------
+*** 
 
-### Data showcase 14: Wins based on Started Grid Position
+### Data showcase 14: Wins based on Started Grid Position 
 
 ```{r echo=FALSE}
 library(plotly)
@@ -500,9 +504,9 @@ race_result_qualifying<-plot_ly(f1_wins_based_grid, labels = ~grid, values = ~Wi
 race_result_qualifying
 ```
 
-------------------------------------------------------------------------
+*** 
 
-### Data showcase 15: F1 WDC Racers and their Podium Wins
+### Data showcase 15: F1 WDC Racers and their Podium Wins 
 
 ```{r echo=FALSE}
 library(ggplot2)
@@ -540,7 +544,7 @@ ggplot(racer_data, aes(x = Racer, y = Podium_Wins_Percentage, group = 1)) +
 
 ```
 
-------------------------------------------------------------------------
+*** 
 
 ### Data showcase 16: F1 WDC Racer Ages
 
@@ -591,4 +595,4 @@ ggplot(racer_data, aes(x = Racer, y = Age, fill = Racer)) +
 
 ```
 
-------------------------------------------------------------------------
+*** 
