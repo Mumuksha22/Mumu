@@ -8,7 +8,7 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: FinalProject.qmd
+      - href: finalproject.qmd
         text: Final Project
       - text: Assignments
         menu:
