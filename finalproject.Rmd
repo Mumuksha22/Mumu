@@ -1,0 +1,598 @@
+---
+title: "Visualizing the Formula for Success in F1 Racing"
+description: "This storyboard delivers our final project product by visualizing Formula 1 Racing data."
+output: 
+  flexdashboard::flex_dashboard:
+   storyboard: true
+   theme: united
+---
+
+EPPS 6356 Data Visualization Project
+
+### Introduction
+
+```{r echo=FALSE}
+
+knitr::include_graphics("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_racing.png")
+
+```
+
+***
+
+This storyboard delivers our final project product by visualizing Formula 1 Racing data focused on analyzing information on the drivers throughout different eras and the key to their success.
+
+### Data showcase 1: Which factors are important to determine the best driver?
+
+```{r echo=FALSE}
+
+knitr::include_graphics("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/regression-analysis.png")
+
+```
+
+*** 
+Multiple linear regression was utilized to determine which factors are important to evaluate the best driver.\
+\
+Wins = b0 + (Pole Position) X1 + (Total Points) X2 + (Fastest Laps) X3 + (Podiums) X4 + (1st WDC Age) X5 + e\
+Note: b0 is the intercept of the regression line and e is the model error (residuals) or the variation in the model\
+\
+R^2 = 0.9778, p-value = 6.995e-05\
+\
+Tried to evaluate the height factor, however, the p-value was truly not significant since the p-value was 0.4155.\
+\
+
+### Data showcase 2: Animated Plot of Career Total Wins for Top 10 Racers
+
+```{r echo=FALSE}
+
+knitr::include_graphics("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/total-wins-top10racers.gif")
+
+```
+
+*** 
+
+### Data showcase 3: 2009-2013 Pole Wins compared to Total Wins 
+
+```{r echo=FALSE, out.width="50%", out.height="50%"}
+
+knitr::include_graphics("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/totalwins.png")
+knitr::include_graphics("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/polewins.png")
+
+```
+
+*** 
+
+
+### Data showcase 4: 2014-2021 Turbo Hybrid Era
+
+```{r echo=FALSE, out.width="50%", out.height="50%"}
+
+knitr::include_graphics("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/turbo_hybrid_totalwins.png")
+knitr::include_graphics("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/turbo_hybrid_polewins.png")
+
+```
+
+*** 
+
+### Data showcase 5: Average Pit Stop Time from 2011-2021
+
+```{r echo=FALSE}
+library(readxl)
+library(tidyverse)
+library(ggplot2)
+library(DBI)
+library(odbc)
+library(sqldf)
+library(RColorBrewer)
+library(ggrepel)
+library(f1dataR)
+
+f1_drivers<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/drivers.csv")
+f1_circuits<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/circuits.csv")
+f1_races<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/races.csv")
+f1_constructors<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/constructors.csv")
+f1_pit_stops<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/pit_stops.csv")
+f1_qualifying<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/qualifying.csv")
+f1_results<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/results.csv")
+f1_lap_times<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/lap_times.csv")
+
+f1_team_race <- sqldf(
+  "select *
+  from f1_constructors inner join f1_results using (constructorId)"
+)
+f1_team_race <- sqldf("select *
+                   	from f1_team_race inner join f1_races using (raceId)")
+
+# summary(f1_team_race)
+# head(f1_team_race)
+
+f1_team_race <- sqldf("select *
+                  	from f1_team_race inner join f1_circuits using (circuitId)")
+
+
+f1_team_race_win <- sqldf("select constructors_name, count(position) as 'Wins',gp_name
+                      	from f1_team_race
+                      	where year >= 2006
+                      	and position == 1
+                      	group by gp_name, constructors_name")
+
+
+
+f1_race_year <- sqldf("select*
+                   	from f1_races inner join f1_results using (raceId)")
+
+f1_wins_per_driver <- sqldf("Select driverRef as 'Driver Name', count(position) as 'Wins'
+                        	from f1_drivers inner join f1_race_year using (driverId)
+                        	where position == 1
+                        	and year >= 2006
+                        	group by driverRef
+                        	ORDER BY count(position) DESC, driverRef")
+
+avg_pit_stop<- sqldf("select year, avg(stop) as 'Average Pit stops per Race', avg(duration) as 'Average Pit Stop Time'
+                 	from f1_pit_stops inner join f1_races using (raceId)
+                 	where year >= 2011
+                 	group by Year") 	 
+x_axis_years <- min(avg_pit_stop$year): max(avg_pit_stop$year)
+
+pit_stop <- ggplot(data = avg_pit_stop,aes(x = year, y = `Average Pit Stop Time`))+
+  geom_line(color = 'orange', size = 1.5)+
+  geom_point(shape = 21, size = 3, color= 'white', fill = 'white')+
+  labs(title = "Average Pit Stop time (2011-2021)", x= "Years",
+       y = "Average Pit Stop Time
+(Seconds)")+
+  theme_dark_f1(axis = TRUE)+
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_x_continuous(labels = x_axis_years, breaks = x_axis_years)+
+  geom_label_repel(aes(label= round(`Average Pit Stop Time`,digits =2)),
+                   box.padding = 1,
+                   point.padding = 1,
+                   size =3,
+                   color ='black',
+                   segment.color = 'red')
+pit_stop
+
+```
+
+*** 
+
+
+### Data showcase 6: Total Points in 2021 for Different Racers 
+
+```{r echo=FALSE}
+library(openxlsx)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(plyr)
+library(RColorBrewer)
+
+# Reading data
+f1_data <- read.xlsx("https://github.com/Mumuksha22/Mumu/raw/main/F1_Data_Final_Momo5.xlsx", sheet = "2021_RaceByRace", startRow = 36)
+
+# Calculating cumulative sum within each group of 23 rows
+f1_data$cumul <- ave(f1_data$Points, rep(seq_len(nrow(f1_data) %/% 23), each = 23, length.out = nrow(f1_data)), FUN = cumsum)
+
+# Calculating cumulative percentage
+f1_data$cumperc <- f1_data$cumul / nrow(f1_data)
+
+# Plotting
+set.seed(123)  
+unique_colors <- sample(brewer.pal(length(unique(f1_data$Driver.Name)), "Set1"), length(unique(f1_data$Driver.Name)))
+
+ggplot(data = f1_data, aes(x = Race.Number, y = cumul, group = Driver.Name, color = Driver.Name)) +
+  geom_line() +
+  ggtitle("Total Points in 2021") +
+  xlab("Race Number") + ylab("Points") +
+  scale_color_manual(values = unique_colors, name = "Driver Names") +  # Add legend title
+  theme_minimal() +
+  theme(
+    plot.background = element_rect(fill = "black"), 
+    axis.text = element_text(color = "white"), 
+    axis.title = element_text(color = "white"),
+    plot.title = element_text(color = "white", hjust = 0.5),  # Center the title
+    legend.text = element_text(color="white"),
+    legend.title = element_text(color = "white"),  # Legend title color
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_line(color = "white"))
+```
+
+*** 
+
+
+### Data showcase 7: 2021 F1 Teams Total Points 
+
+```{r echo=FALSE, fig.width=8.5, fig.height=6.5}
+library(ggplot2)
+teams <- c("Mercedes", "Red Bull", "Ferrari", "McLaren", "Alpine", "AlphaTauri", "Aston Martin", "Williams", "Alfa Romeo", "Haas")
+total_points <- c(613.5, 585.5, 323.5, 275, 155, 142, 77, 23, 13, 0)
+
+# Define colors for each team
+team_colors <- c("Mercedes" = "steelblue3", "Red Bull" = "indianred3", "Ferrari" = "gold1", 
+                 "McLaren" = "olivedrab3", "Alpine" = "plum3", "AlphaTauri" = "tan2", 
+                 "Aston Martin" = "palevioletred", "Williams" = "cornsilk", "Alfa Romeo" = "seagreen", "Haas" = "lightblue2")
+
+# Create a data frame
+data <- data.frame(teams, total_points)
+
+# Create a bubble chart with viridis color palette for bubbles
+ggplot(data, aes(x = teams, y = total_points, size = total_points, color = teams)) +
+  geom_point(alpha = 0.7, shape = 16) +  # Use shape 16 for all points
+  scale_size_continuous(range = c(3, 15)) +
+  scale_color_manual(values = team_colors) +  # Specify team colors manually for the legend
+  labs(title = "F1 Teams Total Points",
+       x = "Teams",
+       y = "Total Points",
+       size = "Total Points",  # Set the size legend title
+       color = "Teams") +  # Set the color legend title
+  guides(size = guide_legend(title = "Total Points"),  # Change size legend title
+         color = guide_legend(title = "Teams")) +  # Change color legend title
+  theme_dark_f1(axis = TRUE) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+        plot.title = element_text(hjust = 0.5),
+        axis.title = element_text(size = 12, face = "bold"),
+        legend.background = element_rect(fill = "gray20", color = "black"),  # Adjust the legend background color
+        legend.text = element_text(color = "white"),  # Adjust the legend text color
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(color = "white"))
+
+```
+
+*** 
+
+
+### Data showcase 8: 2021 US Grand Prix Qualifying 
+
+```{r echo=FALSE, out.width="43%", out.height="43%"}
+
+#out.width="40%
+
+knitr::include_graphics("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/grandprix1.png")
+knitr::include_graphics("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/grandprix2.png")
+#knitr::include_url("https://rishi-kat.github.io/epps6356/links/grandprix1.png", height = "445")
+#knitr::include_url("https://rishi-kat.github.io/epps6356/links/grandprix2.png", height = "445")
+
+```
+
+*** 
+These 2 graphs are created using the "f1dataR" library!
+
+
+### Data showcase 9: Fernando Alonso’s Record Breaking Distance! 
+
+```{r echo=FALSE, fig.width=8.5, fig.height=4.8}
+
+library(ggplot2)
+
+# make sample dataframe
+Category <- c("Neptune", "Alonso", "Raikkonen", "Hamilton")
+Percent <- c(100, 60, 47, 40)
+
+rankings<-data.frame(Category,Percent)
+
+# append number to category name
+rankings$Category <-
+  paste0(rankings$Category," - ",rankings$Percent,"%")
+
+# set factor so it will plot in descending order 
+rankings$Category <-
+  factor(rankings$Category, 
+         levels=rev(rankings$Category))
+
+ggplot(rankings, aes(x = Category, y = Percent,
+                               fill = Category)) + 
+  geom_bar(width = 0.9, stat="identity") + 
+  coord_polar(theta = "y") +
+  xlab("") + ylab("") +
+  ylim(c(0,100)) +
+  ggtitle("Racers Distance in Comparison to Circumference to Neptune") +
+  geom_text(data = rankings, hjust = 1, size = 3,
+            aes(x = Category, y = 0, label = Category)) +
+  theme_minimal() +
+  theme(legend.position = "none",
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_blank(),
+        axis.text.y = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank()) 
+
+```
+
+*** 
+
+### Data showcase 10: Wins per team by track since 2006
+
+```{r echo=FALSE, fig.width=11, fig.height=8}
+library(readxl)
+library(tidyverse)
+library(ggplot2)
+library(DBI)
+library(odbc)
+library(sqldf)
+library(RColorBrewer)
+library(ggrepel)
+library(f1dataR)
+
+f1_drivers<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/drivers.csv")
+f1_circuits<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/circuits.csv")
+f1_races<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/races.csv")
+f1_constructors<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/constructors.csv")
+f1_pit_stops<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/pit_stops.csv")
+f1_qualifying<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/qualifying.csv")
+f1_results<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/results.csv")
+f1_lap_times<- read.csv("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/lap_times.csv")
+
+# summary(f1_races)
+# summary(f1_constructors)
+
+
+f1_team_race <- sqldf(
+  "select *
+  from f1_constructors inner join f1_results using (constructorId)"
+)
+f1_team_race <- sqldf("select *
+                   	from f1_team_race inner join f1_races using (raceId)")
+
+# summary(f1_team_race)
+# head(f1_team_race)
+
+f1_team_race <- sqldf("select *
+                  	from f1_team_race inner join f1_circuits using (circuitId)")
+
+
+f1_team_race_win <- sqldf("select constructors_name, count(position) as 'Wins',gp_name
+                      	from f1_team_race
+                      	where year >= 2006
+                      	and position == 1
+                      	group by gp_name, constructors_name")
+
+
+
+f1_race_year <- sqldf("select*
+                   	from f1_races inner join f1_results using (raceId)")
+
+f1_wins_per_driver <- sqldf("Select driverRef as 'Driver Name', count(position) as 'Wins'
+                        	from f1_drivers inner join f1_race_year using (driverId)
+                        	where position == 1
+                        	and year >= 2006
+                        	group by driverRef
+                        	ORDER BY count(position) DESC, driverRef")
+
+
+# summary(f1_wins_per_driver)
+
+getPalette = colorRampPalette(brewer.pal(6, "Set1"))
+team_race_win <- ggplot(f1_team_race_win, aes( x = Wins, y= gp_name, fill = constructors_name))+
+  geom_bar(stat= "identity", position = position_stack(reverse = TRUE)) +
+  geom_text(aes(x = Wins, 
+                y = gp_name,label = Wins), 
+            position = position_stack(vjust=0.5,reverse=TRUE),
+            size = 4) + 
+  labs(title = "Wins per Team at each GP Since 2006", x= "Wins", y = "Track Name", fill = "Team Name")+
+  theme_dark_f1(axis = TRUE) +
+  theme(plot.title = element_text(hjust=0.5)) +
+  scale_fill_manual(values = getPalette(length(unique(f1_team_race_win$constructors_name))))
+
+team_race_win
+
+```
+
+*** 
+
+
+### Data showcase 11: Wins per driver since 2006 
+
+```{r echo=FALSE}
+f1_race_year <- sqldf("select*
+                   	from f1_races inner join f1_results using (raceId)")
+
+f1_wins_per_driver <- sqldf("Select driverRef as 'Driver Name', count(position) as 'Wins'
+                        	from f1_drivers inner join f1_race_year using (driverId)
+                        	where position == 1
+                        	and year >= 2006
+                        	group by driverRef
+                        	ORDER BY count(position) DESC, driverRef")
+
+ggplot(f1_wins_per_driver, aes(x= Wins, y= reorder(`Driver Name`,Wins)))+
+  geom_bar(stat= "identity", position = position_stack(reverse = FALSE),color= "black", fill = "#005ba9")+
+  labs(title = "Wins per Driver Since 2006", x= "Wins", y = "Driver Name")+
+  theme_light()+
+  theme(plot.title = element_text(hjust = 0.5))+
+  geom_text(data = f1_wins_per_driver, aes(x= round(Wins,digits = 0), y = `Driver Name`, label = Wins, fill =NULL), hjust = -0.1,size = 4)
+
+
+```
+
+*** 
+
+### Data showcase 12: Frequency of Max Verstappen’s & Lewis Hamilton’s Finishing Positions
+
+```{r echo=FALSE, fig.width=9, fig.height=4.8}
+library(openxlsx)
+library(plyr)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(RColorBrewer)
+
+# Function to create a pie chart
+create_pie_chart <- function(data, title, custom_colors) {
+  df <- data.frame(data)
+  frequency_table <- table(df$data)
+  
+  pie(frequency_table,
+      main = title,
+      labels = paste(round(100 * frequency_table / sum(frequency_table), 1), "%"),
+      col = custom_colors)
+  
+  legend("topright", legend = names(frequency_table), fill = custom_colors, title = "Finishing Position", cex = 0.5)
+}
+
+# Load F1 data
+f1_data <- read.xlsx("https://github.com/Mumuksha22/Mumu/raw/main/F1_Data_Final_Momo5.xlsx", sheet = "2021", startRow = 98)
+
+# Max Verstappen Data
+verstappen_data <- c(2, 1, 2, 2, 1, 0, 1, 1, 1, 0, 9, 1, 1, 0, 2, 2, 1, 1, 2, 2, 2, 1)
+custom_colors_verstappen <- brewer.pal(length(unique(verstappen_data)), "PiYG")
+
+# Lewis Hamilton Data
+hamilton_data <- c(1, 2, 1, 1, 7, 15, 2, 2, 4, 1, 2, 3, 2, 0, 1, 5, 2, 2, 1, 1, 1, 2)
+custom_colors_hamilton <- brewer.pal(length(unique(hamilton_data)), "Set3")
+
+# Set up the layout for two plots side by side
+par(mfrow = c(1, 2))
+
+# Create Max Verstappen Pie Chart
+create_pie_chart(verstappen_data, "Finishing Position - Max Verstappen", custom_colors_verstappen)
+
+# Create Lewis Hamilton Pie Chart
+create_pie_chart(hamilton_data, "Finishing Position - Lewis Hamilton", custom_colors_hamilton)
+
+# Reset the layout to default
+par(mfrow = c(1, 1))
+
+```
+
+*** 
+
+### Data showcase 13: Most Wins for Each Racer at Various Circuits 
+
+```{r echo=FALSE, fig.width=11, fig.height=8}
+library(openxlsx)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+
+f1_data <- read.xlsx("/Users/rishi_kat/Documents/EPPS6356_Data_Vis/Project/F1_data/RacerWinsbyCircuit.xlsx")
+
+ggplot(f1_data, aes(x = `Driver.Name`, y = `Total.Wins`, fill = `Circuit`)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Most Wins for Each Driver at Various Circuits",
+       x = "Driver",
+       y = "Number of Wins",
+       fill = "Circuit") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "bottom",
+        legend.text = element_text(size=8),
+        legend.title = element_text(size=11),
+        legend.key.height= unit(0.2, 'cm'),
+        legend.key.width= unit(0.2, 'cm'),
+        text=element_text(size=12,  family="serif"),
+        plot.title = element_text(hjust = 0.5))
+```
+
+*** 
+
+### Data showcase 14: Wins based on Started Grid Position 
+
+```{r echo=FALSE}
+library(plotly)
+f1_wins_based_grid <- sqldf("select grid, count(position) as 'Wins'
+               	from f1_results inner join f1_races using (raceId)
+               	where position == 1
+               	and year >= 2006
+               	group by grid")
+
+race_result_qualifying<-plot_ly(f1_wins_based_grid, labels = ~grid, values = ~Wins)%>%
+  add_pie(hole=0.6)%>%
+  layout(title =" Total Wins Based on Starting Grid Position",legend=list(title=list(text='Starting Grid Position',font = 4)) )%>%
+  layout(annotations=list(text=paste0("Total number of races since 2006:
+  ", (sum(f1_wins_based_grid$Wins))),
+                      	"showarrow"=FALSE))
+
+race_result_qualifying
+```
+
+*** 
+
+### Data showcase 15: F1 WDC Racers and their Podium Wins 
+
+```{r echo=FALSE}
+library(ggplot2)
+
+# Data for F1 WDC Racers and their Podium Wins
+racer_data <- data.frame(
+  Racer = c(
+    "Sebastian Vettel", "Michael Schumacher", "Nico Rosberg", "Jenson Button",
+    "Kimi Raikonnen", "Fernando Alonso", "Mika Hakkinen", "Alain Prost",
+    "Nigel Mansell", "Niki Lauda", "Jackie Stewart", "Jim Clark", "Alberto Ascari",
+    "Juan Manuel Fangio"
+  ),
+  Podium_Wins_Percentage = c(
+    40.7, 50.3, 27.7, 16.2, 29.3, 28.0, 30.9, 52.5, 30.7, 31, 43, 23.3, 51.5, 68.6
+  )
+)
+
+# Create a set of distinct colors for each racer
+colors <- rainbow(length(unique(racer_data$Racer)))
+
+# Create the line chart
+ggplot(racer_data, aes(x = Racer, y = Podium_Wins_Percentage, group = 1)) +
+  geom_line(aes(color = Racer), size = 2) +
+  geom_point(aes(color = Racer), size = 4) +
+  scale_color_manual(values = colors) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  ) +
+  labs(
+    title = "F1 WDC Racers and their Podium Wins",
+    y = "Podium Wins Percentage"
+  )
+
+```
+
+*** 
+
+### Data showcase 16: F1 WDC Racer Ages
+
+```{r echo=FALSE, fig.width=10, fig.height=6.5}
+
+library(ggplot2)
+
+# Data for F1 WDC Racers and their ages
+racer_data <- data.frame(
+  Racer = c(
+    "Sebastian Vettel", "Lewis Hamilton", "Michael Schumacher", "Nico Rosberg",
+    "Jenson Button", "Kimi Raikonnen", "Fernando Alonso", "Mika Hakkinen",
+    "Jacques Villeneuve", "Alain Prost", "Max Verstappen", "Ayrton Senna",
+    "Damon Hill", "Nigel Mansell", "Niki Lauda", "Jackie Stewart", "James Hunt"
+  ),
+  Age = c(
+    23.37, 23.82, 25.84, 31.17, 29.91, 28.00, 24.08, 30.08, 26.56, 30.61,
+    24.17, 28.64, 36.02, 39.01, 26.55, 30.09, 29.08
+  )
+)
+
+# Reorder the levels of the Racer variable based on Age in descending order
+racer_data$Racer <- factor(racer_data$Racer, levels = racer_data$Racer[order(racer_data$Age, decreasing = TRUE)])
+
+# Custom colors for each racer
+colors <- c("#FF5733", "#3498db", "#EC3FBE", "#3FEC50", "#660F18", "#FF0000",
+            "#8CCEC1", "#e74c3c", "#E8D5EB", "#E86E04", "#8e44ad", "#83E6FA",
+            "#e74c3c", "#2ecc71", "#0442EE", "#8e44ad", "#FCB271")
+
+# Create the bar chart with bold and pretty font
+ggplot(racer_data, aes(x = Racer, y = Age, fill = Racer)) +
+  geom_bar(stat = "identity", color = "white", position = "dodge") +
+  scale_fill_manual(values = colors) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, face = "bold", size = 10),
+    plot.title = element_text(face = "bold", size = 16),
+    plot.subtitle = element_text(size = 14),
+    axis.title.y = element_text(face = "bold", size = 12),
+    axis.text.y = element_text(face = "bold"),
+    legend.position = "none"
+  ) +
+  labs(
+    title = "F1 WDC Racers and Their Ages",
+    y = "Age (in years)"
+  )
+
+
+```
+
+*** 

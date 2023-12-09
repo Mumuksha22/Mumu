@@ -1,0 +1,50 @@
+---
+title: "Assignment 9"
+format: html
+editor: visual
+---
+
+```{r}
+#install.packages("quantmod")
+library(quantmod)
+library(dygraphs)
+library(TSstudio)
+
+#quantmod::getSymbols("NFLX", src="yahoo")
+
+NFLX <- getSymbols("NFLX",
+                    from = "2011/01/01",
+                    to = "2020/12/31",
+                    periodicity = "daily",
+                    auto.assign = FALSE)
+
+
+sum(is.na(NFLX))
+
+# class
+
+class(NFLX)
+head(NFLX)
+
+
+chartSeries(NFLX, type = c("auto", "candlesticks", "matchsticks", "bars","line"), subset='last 4 months',theme = "white")
+
+```
+
+```{r}
+barChart(NFLX,multi.col=TRUE,theme = 'white')
+```
+
+```{r}
+# Plotting time series data using TSstudio
+# install.packages(c("quantmod", "tidyverse","TSstudio"))
+# lapply(c("quantmod", "tidyverse","TSstudio"), require, character.only = TRUE)
+
+library(TSstudio)
+quantmod::getSymbols("AAPL", src="yahoo")
+class(AAPL)
+ts_plot(AAPL$AAPL.Adjusted, 
+        title = "Apple Stock prices",
+        Ytitle = "")
+class(AAPL) # What class is this object?
+```
