@@ -54,5 +54,47 @@
     "title": "Assignment 6",
     "section": "",
     "text": "knitr::include_app(\"https://mumuksha22.shinyapps.io/DV12/\")"
+  },
+  {
+    "objectID": "Assignment7.html",
+    "href": "Assignment7.html",
+    "title": "Assignment 7",
+    "section": "",
+    "text": "Shiny Hackathon\n\nDue to some error I was unable to upload my Shiny App on the website. However, I was responsible for making the bubble chart of our assignment."
+  },
+  {
+    "objectID": "Assignment8.html",
+    "href": "Assignment8.html",
+    "title": "Assignment 8",
+    "section": "",
+    "text": "We used this time to work on our graphs for the final project. Our graphs can be found on our dashboard which is linked under the final project tab."
+  },
+  {
+    "objectID": "Assignment10.html",
+    "href": "Assignment10.html",
+    "title": "Assignment 10",
+    "section": "",
+    "text": "## R Leaflet sample program \n## file: spatial_leaflet.R\n## Create an interactive map for web using ESRI Leaflet\n# Package:  leaflet, htmlwidgets, tidyverse\n\n## install.packages(c(\"htmlwidgets\", \"leaflet\", \"tidyverse\"))\nlibrary(htmlwidgets)\nlibrary(leaflet)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.3     ✔ readr     2.1.4\n✔ forcats   1.0.0     ✔ stringr   1.5.0\n✔ ggplot2   3.4.4     ✔ tibble    3.2.1\n✔ lubridate 1.9.3     ✔ tidyr     1.3.0\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n# Get EPPS geocode information (i.e. lon, lat) from online geocoder websites.\n# For example: https://www.mapdevelopers.com/geocode_tool.php\n\n# Create object using leaflet setting the view at EPPS geo location)\neppsmap &lt;- leaflet() %&gt;% setView(-96.7478372, 32.9886268, zoom=14)\n\n# Create object to acquire map data from ESRI\nesri &lt;- grep(\"^Esri\", providers, value = TRUE)\n\nfor (provider in esri) {\n  eppsmap &lt;- eppsmap %&gt;% addProviderTiles(provider, group = provider)\n}\n\nfindmeat &lt;- paste(sep = \"&lt;br/&gt;\",\n                  \"&lt;b&gt;&lt;a href='https://mumuksha22.github.io/Mumu/' target='_blank'&gt;Mumuksha Singla &lt;/a&gt;&lt;/b&gt;\",\n                  \"&lt;b&gt;&lt;a href='http://epps.utdallas.edu' target='_blank'&gt;School of Economic, &lt;/a&gt;&lt;/b&gt;\",\n                  \"&lt;b&gt;&lt;a href='http://epps.utdallas.edu' target='_blank'&gt;Political and Policy Sciences&lt;/a&gt;&lt;/b&gt;\",\n                  \"&lt;b&gt;&lt;a href='http://www.utdallas.edu' target='_blank'&gt;University of Texas at Dallas&lt;/a&gt;&lt;/b&gt;\",\n                  \"800 West Campbell Road\",\n                  \"Richardson TX 75080\"\n)\n\n# Use htmlwidget::onRender function to  add custom behavior to the leaflet map using native JavaScript.\n\neppsmap %&gt;%\n  addLayersControl(baseGroups = names(esri),\n                   options = layersControlOptions(collapsed = TRUE)) %&gt;%\n  # addMiniMap(tiles = esri[[1]], toggleDisplay = TRUE,\n  #           position = \"bottomleft\") %&gt;%\n  addMarkers(eppsmap, lng=-96.7478372, lat=32.9886268, popup=findmeat)  %&gt;%\n  htmlwidgets::onRender(\"\n                        function(el, x) {\n                        var myMap = this;\n                        myMap.on('baselayerchange',\n                        function (e) {\n                        myMap.minimap.changeLayer(L.tileLayer.provider(e.name));\n                        })\n                        }\")"
+  },
+  {
+    "objectID": "finalproject.html",
+    "href": "finalproject.html",
+    "title": "Final Project",
+    "section": "",
+    "text": "Authors: Rishika Katamneni, Mumuksha Singla, Ashutosh Patel, and Priya Nalliah\nFinal Project Dashboard"
+  },
+  {
+    "objectID": "Assignment9.html",
+    "href": "Assignment9.html",
+    "title": "Assignment 9",
+    "section": "",
+    "text": "#install.packages(\"quantmod\")\nlibrary(quantmod)\n\nLoading required package: xts\n\n\nLoading required package: zoo\n\n\n\nAttaching package: 'zoo'\n\n\nThe following objects are masked from 'package:base':\n\n    as.Date, as.Date.numeric\n\n\nLoading required package: TTR\n\n\nRegistered S3 method overwritten by 'quantmod':\n  method            from\n  as.zoo.data.frame zoo \n\nlibrary(dygraphs)\nlibrary(TSstudio)\n\n#quantmod::getSymbols(\"NFLX\", src=\"yahoo\")\n\nNFLX &lt;- getSymbols(\"NFLX\",\n                    from = \"2011/01/01\",\n                    to = \"2020/12/31\",\n                    periodicity = \"daily\",\n                    auto.assign = FALSE)\n\n\nsum(is.na(NFLX))\n\n[1] 0\n\n# class\n\nclass(NFLX)\n\n[1] \"xts\" \"zoo\"\n\nhead(NFLX)\n\n           NFLX.Open NFLX.High NFLX.Low NFLX.Close NFLX.Volume NFLX.Adjusted\n2011-01-03  25.00000  25.83857 24.78571   25.48714    39956000      25.48714\n2011-01-04  25.90714  26.41429 25.47000   25.91000    44065700      25.91000\n2011-01-05  25.87857  26.11286 25.53000   25.67571    31799600      25.67571\n2011-01-06  25.16857  25.67000 25.09286   25.42714    31991400      25.42714\n2011-01-07  25.52429  25.79286 25.19714   25.61429    22155000      25.61429\n2011-01-10  25.67143  26.85000 25.59714   26.84000    43674400      26.84000\n\nchartSeries(NFLX, type = c(\"auto\", \"candlesticks\", \"matchsticks\", \"bars\",\"line\"), subset='last 4 months',theme = \"white\")\n\n\n\n\n\nbarChart(NFLX,multi.col=TRUE,theme = 'white')\n\n\n\n\n\n# Plotting time series data using TSstudio\n# install.packages(c(\"quantmod\", \"tidyverse\",\"TSstudio\"))\n# lapply(c(\"quantmod\", \"tidyverse\",\"TSstudio\"), require, character.only = TRUE)\n\nlibrary(TSstudio)\nquantmod::getSymbols(\"AAPL\", src=\"yahoo\")\n\n[1] \"AAPL\"\n\nclass(AAPL)\n\n[1] \"xts\" \"zoo\"\n\nts_plot(AAPL$AAPL.Adjusted, \n        title = \"Apple Stock prices\",\n        Ytitle = \"\")\n\n\n\n\nclass(AAPL) # What class is this object?\n\n[1] \"xts\" \"zoo\""
+  },
+  {
+    "objectID": "FinalProject.html",
+    "href": "FinalProject.html",
+    "title": "Final Project",
+    "section": "",
+    "text": "Authors: Mumuksha Singla\nTest"
   }
 ]
