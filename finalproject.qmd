@@ -4,6 +4,6 @@ format: html
 editor: visual
 ---
 
-Authors: Rishika Katamneni, Mumuksha Singla, Ashutosh Patel, and Priya Nalliah
+Authors: Mumuksha Singla
 
-Final Project Dashboard
+[Test](https://github.com/Mumuksha22/Mumu/blob/main/finalproject.html)

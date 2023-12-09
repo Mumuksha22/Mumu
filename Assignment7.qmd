@@ -4,6 +4,6 @@ format: html
 editor: visual
 ---
 
-[Shiny Hackathon](https://rishi-kat.github.io/epps6356/posts/assign07/assignment7.html) \
+[Shiny Hackathon](https://rishi-kat.github.io/epps6356/posts/assign07/assignment7.html)\
 \
 Due to some error I was unable to upload my Shiny App on the website. However, I was responsible for making the bubble chart of our assignment.

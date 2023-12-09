@@ -3,3 +3,5 @@ title: "Assignment 8"
 format: html
 editor: visual
 ---
+
+We used this time to work on our graphs for the final project. Our graphs can be found on our dashboard which is linked under the final project tab.
