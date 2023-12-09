@@ -20,25 +20,25 @@ website:
       - text: Assignments
         menu:
         - href: Assignment1.qmd
-          text: Assignment 1
+          text: Assignment1
         - href: Assignment2.qmd
-          text: Assignment 2
+          text: Assignment2
         - href: Assignment3.qmd
-          text: Assignment 3
+          text: Assignment3
         - href: Assignment4.qmd
-          text: Assignment 4
+          text: Assignment4
         - href: Assignment5.qmd
-          text: Assignment 5
+          text: Assignment5
         - href: Assignment6.qmd
-          text: Assignment 6
+          text: Assignment6
         - href: Assignment7.qmd
-          text: Assignment 7
+          text: Assignment7
         - href: Assignment8.qmd
-          text: Assignment 8
+          text: Assignment8
         - href: Assignment9.qmd
-          text: Assignment 9
+          text: Assignment9
         - href: Assignment10.qmd
-          text: Assignment 10
+          text: Assignment10
       
 format:
   html:
