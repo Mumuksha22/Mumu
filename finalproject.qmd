@@ -1,0 +1,9 @@
+---
+title: "Final Project"
+format: html
+editor: visual
+---
+
+Authors: Rishika Katamneni, Mumuksha Singla, Ashutosh Patel, and Priya Nalliah
+
+Final Project Dashboard
