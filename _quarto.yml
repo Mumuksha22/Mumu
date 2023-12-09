@@ -1,27 +1,43 @@
 project:
   type: website
   output-dir: docs
-
+  
 website:
   title: "Momo's Website"
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - Assignment1.qmd
-      - Assignment2.qmd
-      - Assignment3.qmd
-      - Assignment4.qmd
-      - Assignment5.qmd
-      - Assignment6.qmd
-      
+      - href: finalproject.qmd
+        text: Final Project
+      - text: Assignments
+        menu:
+          - href: Assignment1.qmd
+            text: Assignment 1
+          - href: Assignment2.qmd
+            text: Assignment 2
+          - href: Assignment3.qmd
+            text: Assignment 3
+          - href: Assignment4.qmd
+            text: Assignment 4
+          - href: Assignment5.qmd
+            text: Assignment 5
+          - href: Assignment6.qmd
+            text: Assignment 6
+          - href: Assignment7.qmd
+            text: Assignment 7
+          - href: Assignment8.qmd
+            text: Assignment 8
+          - href: Assignment9.qmd
+            text: Assignment 9
+          - href: Assignment10.qmd
+            text: Assignment 10
 
 format:
   html:
     theme: minty
-    mainfont: Georgia, serif;
+    mainfont: Georgia, serif
     css: styles.css
     toc: true
 
 editor: visual
-
