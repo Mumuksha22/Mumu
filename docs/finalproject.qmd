@@ -3,7 +3,3 @@ title: "Final Project"
 format: html
 editor: visual
 ---
-
-Authors: Mumuksha Singla
-
-[Test](https://github.com/Mumuksha22/Mumu/blob/main/finalproject.html)
