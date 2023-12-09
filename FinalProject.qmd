@@ -4,6 +4,4 @@ format: html
 editor: visual
 ---
 
-Authors: Mumuksha Singla
-
-[Test](https://github.com/Mumuksha22/Mumu/blob/main/finalproject.html)
+[Final Dashboard](https://github.com/Mumuksha22/Mumu/blob/main/finalproject.html)
